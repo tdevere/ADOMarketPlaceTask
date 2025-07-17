@@ -1,0 +1,11 @@
+trigger:
+  - main
+
+pool:
+  vmImage: 'windows-latest'
+
+steps:
+- script: |
+    npm install -g tfx-cli
+    tfx extension create --manifest-globs vss-extension.json
+  displayName: 'Build and Package Task'

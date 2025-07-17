@@ -1,0 +1,57 @@
+{
+  "id": "TroubleshooterTask",
+  "name": "TroubleshooterTask",
+  "friendlyName": "Network Troubleshooter",
+  "description": "Run troubleshooting tools on failure",
+  "author": "YourName",
+  "category": "Utility",
+  "visibility": ["Build", "Release"],
+  "demands": [],
+  "version": {
+    "Major": 0,
+    "Minor": 1,
+    "Patch": 0
+  },
+  "inputs": [
+    {
+      "name": "endpoint",
+      "type": "string",
+      "label": "Endpoint to test",
+      "required": true
+    },
+    {
+      "name": "tests",
+      "type": "multiLine",
+      "label": "Tests to run (ping, dns, trace, https, custom)",
+      "defaultValue": "ping\ndns\ntrace\nhttps"
+    },
+    {
+      "name": "customScript",
+      "type": "multiLine",
+      "label": "Custom Troubleshooting Script",
+      "required": false
+    },
+    {
+      "name": "captureNetworkTrace",
+      "type": "boolean",
+      "label": "Capture Network Trace?",
+      "defaultValue": false
+    },
+    {
+      "name": "uploadOutput",
+      "type": "boolean",
+      "label": "Upload Output as Artifact?",
+      "defaultValue": true
+    }
+  ],
+  "execution": {
+    "PowerShell3": {
+      "target": "Troubleshooter.ps1",
+      "platforms": ["windows"]
+    },
+    "Node": {
+      "target": "Troubleshooter.sh",
+      "platforms": ["linux"]
+    }
+  }
+}

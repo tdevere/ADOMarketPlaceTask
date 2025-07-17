@@ -1,0 +1,19 @@
+# Node.js
+node_modules/
+
+# Visual Studio Code
+.vscode/
+*.code-workspace
+
+# Azure DevOps Task build outputs
+*.vsix
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Temporary Files
+*.tmp
