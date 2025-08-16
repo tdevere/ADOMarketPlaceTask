@@ -1,0 +1,9 @@
+{
+  "name": "network-troubleshoot-task",
+  "version": "0.1.0",
+  "description": "Azure Pipelines task to collect network troubleshooting data",
+  "main": "index.js",
+  "dependencies": {
+    "azure-pipelines-task-lib": "^4.13.0"
+  }
+}

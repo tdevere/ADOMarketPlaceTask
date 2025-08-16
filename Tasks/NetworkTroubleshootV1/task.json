@@ -1,0 +1,113 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/azure-pipelines-task-lib/master/task.json",
+  "id": "d3b9f0c4-0000-4000-8000-000000000001",
+  "name": "NetworkTroubleshootV1",
+  "friendlyName": "Network Troubleshoot",
+  "description": "Run common network troubleshooting checks (ping, dns, traceroute, https, custom script) and collect traces and reports as build artifacts.",
+  "helpMarkDown": "Use this task to collect network diagnostics from build agents during pipelines for troubleshooting.",
+  "category": "Utility",
+  "visibility": [ "Build", "Release" ],
+  "author": "Your Company or Team",
+  "version": {
+    "Major": 0,
+    "Minor": 1,
+    "Patch": 0
+  },
+  "instanceNameFormat": "Network Troubleshoot: $(target)",
+  "inputs": [
+    {
+      "name": "target",
+      "type": "string",
+      "label": "Target (hostname or IP)",
+      "defaultValue": "",
+      "required": true,
+      "helpMarkDown": "Hostname or IP address the checks will target."
+    },
+    {
+      "name": "tools",
+      "type": "multiLine",
+      "label": "Tools to run",
+      "defaultValue": "ping\ndns\ntraceroute\nhttps\nnetstat\nipconfig",
+      "required": false,
+      "helpMarkDown": "List of tools to run, one per line: ping, dns, traceroute, https, script, netstat, ipconfig, ifconfig, curl, test-netconnection"
+    },
+    {
+      "name": "captureNetworkTrace",
+      "type": "boolean",
+      "label": "Capture network trace",
+      "defaultValue": false,
+      "required": false,
+      "helpMarkDown": "When enabled, attempts to capture a packet-level trace (tcpdump/Wireshark tshark or Netsh trace on Windows). Requires appropriate permissions and availability on the agent."
+    },
+    {
+      "name": "customScript",
+      "type": "string",
+      "label": "Custom inline script",
+      "defaultValue": "",
+      "required": false,
+      "helpMarkDown": "Inline PowerShell or Bash script to run. Will be executed with the agent shell."
+    },
+    {
+      "name": "timeoutSeconds",
+      "type": "string",
+      "label": "Per-tool timeout (seconds)",
+      "defaultValue": "30",
+      "required": false,
+      "helpMarkDown": "Timeout in seconds for each tool invocation."
+    },
+    {
+      "name": "retries",
+      "type": "string",
+      "label": "Retries per tool",
+      "defaultValue": "0",
+      "required": false,
+      "helpMarkDown": "Number of retry attempts for each tool on transient failures."
+    },
+    {
+      "name": "sanitizeOutputs",
+      "type": "boolean",
+      "label": "Sanitize outputs",
+      "defaultValue": true,
+      "required": false,
+      "helpMarkDown": "Mask likely secrets (basic heuristics) in saved outputs."
+    },
+    {
+      "name": "archiveArtifacts",
+      "type": "boolean",
+      "label": "Archive artifacts (zip)",
+      "defaultValue": true,
+      "required": false,
+      "helpMarkDown": "When true, outputs will be packaged into a zip file in the artifact staging directory."
+    },
+    {
+      "name": "artifactName",
+      "type": "string",
+      "label": "Artifact folder/name",
+      "defaultValue": "network-troubleshoot",
+      "required": false,
+      "helpMarkDown": "Folder name used under artifact staging directory (and zip filename when archiving)."
+    },
+    {
+      "name": "saveArtifacts",
+      "type": "boolean",
+      "label": "Save outputs as artifacts",
+      "defaultValue": true,
+      "required": false,
+      "helpMarkDown": "When true, outputs and reports will be copied to the pipeline artifacts folder."
+    }
+  ],
+  "execution": {
+    "Node": {
+      "target": "index.js",
+      "argumentFormat": "$(inputs)"
+    },
+    "PowerShell3": {
+      "target": "run.ps1",
+      "argumentFormat": "$(inputs)"
+    },
+    "Bash": {
+      "target": "run.sh",
+      "argumentFormat": "$(inputs)"
+    }
+  }
+}
